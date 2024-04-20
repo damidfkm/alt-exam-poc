@@ -2,7 +2,7 @@
 
 -- 1. determining the most ordered item based on successfully checked-out carts:
 
--- creating a common table expression (cte) to filter and temporarily store successfully checked-out orders, ensuring only successful transactions are considered.
+-- creating a common table expression (CTE) to filter and temporarily store successfully checked-out orders, ensuring only successful transactions are considered.
 with successful_orders as (
   select o.order_id, o.customer_id
   from alt_school.orders o
@@ -27,8 +27,7 @@ limit 1; -- limiting the result to the most frequently ordered item
 
 -- 2. identifying the top 5 spenders without considering currency and without using the line_item table:
 
--- creating a cte to filter and temporarily store successful order amounts, ensuring only completed orders are considered.
-
+-- creating a CTE to filter and temporarily store successful order amounts, ensuring only completed orders are considered.
 with order_amounts as (
   select o.customer_id, sum(p.price) as order_amount
   from alt_school.orders o
@@ -54,7 +53,7 @@ limit 5;
 
 -- 1. determining the most common location (country) where successful checkouts occurred:
 
--- creating a cte to filter and temporarily store locations of successful checkouts, ensuring only successful transactions are considered.
+-- creating a CTE to filter and temporarily store locations of successful checkouts, ensuring only successful transactions are considered.
 with successful_locations as (
 select
   c.location as location,
@@ -75,7 +74,7 @@ where sl.checkout_count = (select max(checkout_count) from successful_locations)
 
 -- 2. identifying customers who abandoned their carts and the number of events (excluding visits) that occurred before abandonment:
 
--- creating a cte to filter and temporarily store customers who abandoned their carts, ensuring only those with successful checkouts are considered.
+-- creating a CTE to filter and temporarily store customers who abandoned their carts, ensuring only those with successful checkouts are considered.
 with abandoned_carts as (
   select
     customer_id,
@@ -104,7 +103,7 @@ order by num_events desc;
 
 -- 3. calculating the average number of visits per customer, considering only customers who completed a checkout:
 
--- creating a cte to temporarily store the total number of visits made by each customer.
+-- creating a CTE to temporarily store the total number of visits made by each customer.
 with all_visits as (  
 select e.customer_id,
   count(*) as num_of_visits
