@@ -23,12 +23,12 @@ create table if not exists ALT_SCHOOL.CUSTOMERS
 (
     customer_id uuid primary key,
     device_id uuid NOT NULL,
-    "location" varchar(50) NOT NULL,
-    currency varchar(10) NULL
+    location varchar NOT NULL,
+    currency varchar NOT NULL
 );
 
 -- TODO: provide the command to copy the customers data in the /data folder into ALT_SCHOOL.CUSTOMERS
-COPY ALT_SCHOOL.CUSTOMERS (customer_id, device_id, "location", currency)
+COPY ALT_SCHOOL.CUSTOMERS (customer_id, device_id, location, currency)
 FROM '/data/customers.csv' DELIMITER ',' CSV HEADER;
 
 
@@ -38,20 +38,20 @@ create table if not exists ALT_SCHOOL.ORDERS
 (
     order_id uuid not null primary key,
     customer_id uuid not null,
-    "status" varchar(50) not null,
+    status varchar not null,
     checked_out_at timestamp not null,
 );
 
 -- provide the command to copy orders data into POSTGRES
-COPY ALT_SCHOOL.ORDERS (order_id, customer_id, "status", checked_out_at)
+COPY ALT_SCHOOL.ORDERS (order_id, customer_id, status, checked_out_at)
 FROM '/data/orders.csv' DELIMITER ',' CSV HEADER;
 
 create table if not exists ALT_SCHOOL.LINE_ITEMS
 (
     line_item_id serial primary key,
-    order_id uuid NOT NULL,
-    item_id int8 NOT NULL,
-    quantity int8  NOT NULL
+    order_id uuid not null,
+    item_id bigint not null,
+    quantity bigint not null
 );
 
 -- provide the command to copy ALT_SCHOOL.LINE_ITEMS data into POSTGRES
@@ -64,7 +64,7 @@ create table if not exists ALT_SCHOOL.EVENTS
     event_id serial primary key,
     customer_id uuid  NOT NULL,
     event_data jsonb NOT NULL,
-    event_timestamp timestamp NOT NULL
+    event_timestamp timestamp 
 );
 
 -- TODO: provide the command to copy ALT_SCHOOL.EVENTS data into POSTGRES
